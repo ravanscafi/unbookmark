@@ -31,10 +31,6 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['bowerInstall']
-      },
       js: {
         files: ['<%= config.srcScript %>/{,*/}*.js'],
         tasks: ['jshint', 'babel'],
@@ -143,15 +139,6 @@ module.exports = function (grunt) {
           run: true,
           urls: ['http://localhost:<%= connect.options.port %>/index.html']
         }
-      }
-    },
-
-    // Automatically inject Bower components into the HTML file
-    bowerInstall: {
-      app: {
-        src: [
-          '<%= config.app %>/*.html'
-        ]
       }
     },
 
