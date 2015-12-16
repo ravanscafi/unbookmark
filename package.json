@@ -24,9 +24,19 @@
     "time-grunt": "~1.2.2",
     "jshint-stylish": "~2.0.1",
     "grunt-chrome-manifest": "~0.3.0",
-    "grunt-contrib-compress": "~0.14.0"
+    "grunt-contrib-compress": "~0.14.0",
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2",
+    "sinon-chrome": "^1.0.4"
   },
   "engines": {
     "node": ">=5.2.0"
+  },
+  "scripts": {
+    "test": "mocha test --recursive"
+  },
+  "bin": {
+    "mocha": "./bin/mocha"
   }
 }

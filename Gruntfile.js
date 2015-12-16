@@ -21,6 +21,7 @@ module.exports = function (grunt) {
   var config = {
     app: 'app',
     dist: 'dist',
+    test: 'test',
     srcScript: '<%= config.app %>/scripts.babel'
   };
 
@@ -37,6 +38,10 @@ module.exports = function (grunt) {
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
+      },
+      test: {
+        files: ['<%= config.srcScript %>/{,*/}*.js', '<%= config.test %>/{,*/}*.js'],
+        tasks: ['babel', 'test']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -97,6 +102,8 @@ module.exports = function (grunt) {
       test: {
         options: {
           open: false,
+          // open: true,
+          // keepalive: true,
           base: [
             'test',
             '<%= config.app %>'
@@ -260,8 +267,6 @@ module.exports = function (grunt) {
       dist: [
         'imagemin',
         'svgmin'
-      ],
-      test: [
       ]
     },
 
