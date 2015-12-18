@@ -1,0 +1,25 @@
+{
+  "preset": "google",
+  "disallowMultipleLineBreaks": true,
+  "disallowMultipleLineStrings": true,
+  "disallowMultipleVarDecl": null,
+  "disallowEmptyBlocks": true,
+  "disallowSpacesInCallExpression": true,
+  "disallowSpacesInsideObjectBrackets": true,
+  "disallowKeywordsOnNewLine": ["else"],
+  "disallowMixedSpacesAndTabs": true,
+  "disallowNewlineBeforeBlockStatements": true,
+  "disallowTrailingComma": false,
+  "disallowPaddingNewlinesInBlocks": false,
+  "excludeFiles": ["excluded.js"],
+  "maximumLineLength": {
+    "value": 120,
+    "allowComments": true,
+    "allowUrlComments": true,
+    "allowRegex": true
+  },
+  "requirePaddingNewLinesAfterUseStrict": true,
+  "validateParameterSeparator": ", ",
+  "validateQuoteMarks": "'",
+  "validateIndentation": 2
+}

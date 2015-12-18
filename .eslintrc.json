@@ -1,0 +1,25 @@
+{
+    "extends": "google",
+    "env": {
+        "mocha": true,
+        "node":  true,
+        "es6":   true,
+        "browser": true
+    },
+    "rules": {
+        "max-len": [
+            1,
+            120,
+            4,
+            {
+              "ignoreComments": true,
+              "ignoreUrls": true
+            }
+        ],
+        "comma-dangle": [2, "always-multiline"],
+        "no-unused-vars": [2, {"vars": "all", "varsIgnorePattern": "assert"}]
+    },
+    "globals": {
+        "chrome": true
+    }
+}

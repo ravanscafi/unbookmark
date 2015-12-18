@@ -1,6 +1,7 @@
 node_modules
 temp
 .tmp
+coverage
 dist
 .sass-cache
 package
