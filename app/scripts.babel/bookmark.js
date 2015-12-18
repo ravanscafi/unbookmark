@@ -1,46 +1,47 @@
 (function(root, factory) {
+  /* istanbul ignore next */
   if (typeof exports === 'object') {
     module.exports = factory();
   } else {
-    root.queryObject = factory();
+    root.bookmark = factory();
   }
 })(this, function() {
   'use strict';
 
-  var bookmark = {};
+  var Bookmark = {};
 
-  bookmark.findFolders = (cb) => {
-  	chrome.bookmarks.getTree((nodes) => {
-  		var folders = [];
+  Bookmark.findFolders = cb => {
+    chrome.bookmarks.getTree(nodes => {
+      var folders = [];
       var i;
 
-      for(i = 0; i < nodes.length; i++) {
-        if(nodes[i].children && nodes[i].children.length) {
-          folders.push(nodes[i])
+      for (i = 0; i < nodes.length; i++) {
+        if (nodes[i].children && nodes[i].children.length) {
+          folders.push(nodes[i]);
         }
       }
 
       cb(folders);
-  	});
+    });
   };
 
-  bookmark.getFolderBookmarks = (folderId, cb) => {
-    chrome.bookmarks.getChildren(folderId, (nodes) => {
+  Bookmark.getFolderBookmarks = (folderId, cb) => {
+    chrome.bookmarks.getChildren(folderId, nodes => {
       cb(nodes);
     });
   };
 
-
-  bookmark.moveBookmark = (id, destinationId, cb) => {
+  Bookmark.moveBookmark = (id, destinationId, cb) => {
     chrome.bookmarks.move(id, destinationId, cb);
   };
 
-  bookmark.deleteBookmark = (id, cb) => {
+  Bookmark.deleteBookmark = (id, cb) => {
     chrome.bookmarks.remove(id, cb);
   };
 
-  bookmark.getSuggestion = (cb) => {};
-  bookmark.markBookmarkAsRead = (id, cb) => {};
+  // Bookmark.getSuggestion = cb => {};
 
-  return bookmark;
+  // Bookmark.markBookmarkAsRead = (id, cb) => {};
+
+  return Bookmark;
 });
