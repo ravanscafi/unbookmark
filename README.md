@@ -12,6 +12,6 @@
 
 
 - [ ] entidades:
-	- [ ] config: get / set
+	- [ ] config: get / set / save / load
 	- [ ] bookmark: markAsRead / updateBookmark / deleteBookmark / findFolders / getSuggestion / getBookmarks
 	- [ ] suggester: registerListeners / suggestBookmark / notifyAction / redirectAction
