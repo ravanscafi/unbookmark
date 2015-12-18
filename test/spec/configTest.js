@@ -5,16 +5,16 @@ let sinon = require('sinon');
 let assert = chai.assert;
 let expect = chai.expect;
 
-let option = require('../../app/scripts.babel/option');
+let config = require('../../app/scripts.babel/config');
 
-describe('Options Class', () => {
+describe('Config Class', () => {
   before(() => {
     global.chrome = require('sinon-chrome');
     global.document = {getElementById: () => {}};
   });
 
-  describe('interacting with options page', () => {
-    it('should save all options', done => {
+  describe('interacting with configs page', () => {
+    it('should save all configs', done => {
       var expected = {
         sourceFolder: 'value-1',
         destinationFolder: 'value-2',
@@ -30,18 +30,18 @@ describe('Options Class', () => {
       getElementById.withArgs('triggerFrequency').returns({value: 'value-4'});
       getElementById.withArgs('suggestedOrder').returns({value: 'value-5'});
 
-      var set = sinon.stub(option, 'set');
+      var set = sinon.stub(config, 'set');
       set.withArgs(expected).yields('ok!');
 
-      expect(option.save(response => {
+      expect(config.save(response => {
         expect(response).to.equal('ok!');
         document.getElementById.restore();
-        option.set.restore();
+        config.set.restore();
         done();
       }));
     });
 
-    it('should get and apply all options', done => {
+    it('should get and apply all configs', done => {
       var expected = {
         sourceFolder: 'value-1',
         destinationFolder: 'value-2',
@@ -57,7 +57,7 @@ describe('Options Class', () => {
       getElementById.withArgs('triggerFrequency').returns({value: ''});
       getElementById.withArgs('suggestedOrder').returns({value: ''});
 
-      var get = sinon.stub(option, 'get');
+      var get = sinon.stub(config, 'get');
       get.withArgs([
         'sourceFolder',
         'destinationFolder',
@@ -66,32 +66,32 @@ describe('Options Class', () => {
         'suggestedOrder',
       ]).yields(expected);
 
-      expect(option.load(response => {
+      expect(config.load(response => {
         expect(response).to.equal(true);
         document.getElementById.restore();
-        option.get.restore();
+        config.get.restore();
         done();
       }));
     });
   });
 
   describe('interacting with chrome.storage API', () => {
-    it('should set an object of options', done => {
-      var options = {
+    it('should set an object of configs', done => {
+      var configs = {
         aKey: 'a-value',
         anotherKey: 'another-value',
       };
 
-      chrome.storage.sync.set.withArgs(options).yields(true);
+      chrome.storage.sync.set.withArgs(configs).yields(true);
 
-      option.set(options, response => {
+      config.set(configs, response => {
         expect(response).to.equal(true);
         done();
       });
     });
 
-    it('should get an object of options', done => {
-      var options = {
+    it('should get an object of configs', done => {
+      var configs = {
         aKey: 'a-default-value',
         anotherKey: 'another-default-value',
       };
@@ -101,9 +101,9 @@ describe('Options Class', () => {
         anotherKey: 'another-default-value',
       };
 
-      chrome.storage.sync.get.withArgs(options).yields(expected);
+      chrome.storage.sync.get.withArgs(configs).yields(expected);
 
-      option.get(options, response => {
+      config.get(configs, response => {
         expect(response).to.equal(expected);
         done();
       });
