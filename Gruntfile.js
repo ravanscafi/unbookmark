@@ -1,12 +1,6 @@
 // Generated on 2015-12-16 using generator-chrome-extension 0.4.4
 'use strict';
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
-
 module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
@@ -21,7 +15,6 @@ module.exports = function (grunt) {
   var config = {
     app: 'app',
     dist: 'dist',
-    test: 'test',
     srcScript: '<%= config.app %>/scripts.babel'
   };
 
@@ -34,14 +27,10 @@ module.exports = function (grunt) {
     watch: {
       js: {
         files: ['<%= config.srcScript %>/{,*/}*.js'],
-        tasks: ['jshint', 'babel'],
+        tasks: ['babel'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
-      },
-      test: {
-        files: ['<%= config.srcScript %>/{,*/}*.js', '<%= config.test %>/{,*/}*.js'],
-        tasks: ['babel', 'test']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -99,17 +88,6 @@ module.exports = function (grunt) {
           ]
         }
       },
-      test: {
-        options: {
-          open: false,
-          // open: true,
-          // keepalive: true,
-          base: [
-            'test',
-            '<%= config.app %>'
-          ]
-        }
-      }
     },
 
     // Empties folders to start fresh
@@ -124,28 +102,6 @@ module.exports = function (grunt) {
             '!<%= config.dist %>/.git*'
           ]
         }]
-      }
-    },
-
-    // Make sure code styles are up to par and there are no obvious mistakes
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: [
-        'Gruntfile.js',
-        '<%= config.srcScript %>/{,*/}*.js',
-        '!<%= config.app %>/scripts/vendor/*',
-        'test/spec/{,*/}*.js'
-      ]
-    },
-    mocha: {
-      all: {
-        options: {
-          run: true,
-          urls: ['http://localhost:<%= connect.options.port %>/index.html']
-        }
       }
     },
 
@@ -309,7 +265,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('debug', function () {
     grunt.task.run([
-      'jshint',
       'babel',
       'concurrent:chrome',
       'connect:chrome',
@@ -317,19 +272,13 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('test', [
-    'connect:test',
-    'mocha'
-  ]);
-
   grunt.registerTask('build', [
     'clean:dist',
     'babel',
     'chromeManifest:dist',
     'useminPrepare',
     'concurrent:dist',
-    // No UI feature selected, cssmin task will be commented
-    // 'cssmin',
+    'cssmin',
     'concat',
     'uglify',
     'copy',
@@ -338,8 +287,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'jshint',
-    'test',
     'build'
   ]);
 };
