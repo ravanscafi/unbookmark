@@ -21,15 +21,15 @@ var Config = Config || require('./config.js');
 Bookmark.recursiveFindFolders = nodes => {
   var result = [];
 
-  for (let i = 0; i < nodes.length; i++) {
-    if (nodes[i].children && nodes[i].children.length) {
+  nodes.forEach(node => {
+    if (node.children && node.children.length) {
       result.push({
-        id: nodes[i].id,
-        title: nodes[i].title,
+        id: node.id,
+        title: node.title,
       });
-      result = result.concat(Bookmark.recursiveFindFolders(nodes[i].children));
+      result = result.concat(Bookmark.recursiveFindFolders(node.children));
     }
-  }
+  });
 
   return result;
 };
@@ -43,16 +43,16 @@ Bookmark.recursiveFindFolders = nodes => {
 Bookmark.recursiveFindLeaves = nodes => {
   var result = [];
 
-  for (let i = 0; i < nodes.length; i++) {
-    if (nodes[i].children && nodes[i].children.length) {
-      result = result.concat(Bookmark.recursiveFindLeaves(nodes[i].children));
+  nodes.forEach(node => {
+    if (node.children && node.children.length) {
+      result = result.concat(Bookmark.recursiveFindLeaves(node.children));
     } else {
       result.push({
-        id: nodes[i].id,
-        title: nodes[i].title,
+        id: node.id,
+        title: node.title,
       });
     }
-  }
+  });
 
   return result;
 };

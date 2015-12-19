@@ -22,11 +22,11 @@ var DomHelper = {};
 DomHelper.localizeI18n = () => {
   var objects = document.querySelectorAll('[data-i18n]');
 
-  for (let i = 0; i < objects.length; i++) {
-    var attribute = ['INPUT', 'TEXTAREA'].indexOf(objects[i].tagName) > -1 ? 'value' : 'innerHTML';
+  objects.forEach(object => {
+    var attribute = ['INPUT', 'TEXTAREA'].indexOf(object.tagName) > -1 ? 'value' : 'innerHTML';
 
-    objects[i][attribute] = chrome.i18n.getMessage(objects[i].dataset.i18n);
-  }
+    object[attribute] = chrome.i18n.getMessage(object.dataset.i18n);
+  });
 };
 
 /* istanbul ignore next */
