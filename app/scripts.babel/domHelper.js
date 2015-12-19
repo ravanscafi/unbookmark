@@ -29,6 +29,25 @@ DomHelper.localizeI18n = () => {
   });
 };
 
+/**
+ * Generates <options /> for a given list of Bookmarks.
+ *
+ * @param {BookmarkTreeNode[]} list - a list of Bookmarks
+ * @param {string} selected - default selected option
+ * @return {string} - concatenated options
+ */
+DomHelper.generateOptions = (list, selected) => {
+  var result = '';
+
+  list.forEach(node => {
+    var isSelected = node.id === selected ? ' selected="selected"' : '';
+
+    result += '<option value="' + node.id + '"' + isSelected + '>' + node.title + '</option>\n';
+  });
+
+  return result;
+};
+
 /* istanbul ignore next */
 if (typeof exports === 'object') {
   module.exports = DomHelper;

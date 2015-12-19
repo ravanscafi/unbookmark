@@ -34,4 +34,22 @@ describe('DomHelper Class', () => {
     querySelectorAll.restore();
     done();
   });
+
+  it('should generate options for a select', done => {
+    var nodeList = [
+      {id: 1, title: 'A title'},
+      {id: 2, title: 'Another title'},
+      {id: 3, title: 'Yet Another title'},
+    ];
+    var selected = 2;
+
+    var result = domHelper.generateOptions(nodeList, selected);
+
+    expect(result).to.equal(
+      '<option value="1">A title</option>\n' +
+      '<option value="2" selected="selected">Another title</option>\n' +
+      '<option value="3">Yet Another title</option>\n'
+    );
+    done();
+  });
 });
