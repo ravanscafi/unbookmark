@@ -1,11 +1,11 @@
 'use strict';
 
-let chai = require('chai');
-let sinon = require('sinon');
-let assert = chai.assert;
-let expect = chai.expect;
+const chai = require('chai');
+const sinon = require('sinon');
+const assert = chai.assert;
+const expect = chai.expect;
 
-let config = require('../../app/scripts.babel/config');
+const config = require('../../app/scripts.babel/config');
 
 describe('Config Class', () => {
   before(() => {
@@ -35,8 +35,8 @@ describe('Config Class', () => {
 
       expect(config.save(response => {
         expect(response).to.equal('ok!');
-        document.getElementById.restore();
-        config.set.restore();
+        getElementById.restore();
+        set.restore();
         done();
       }));
     });
@@ -68,8 +68,8 @@ describe('Config Class', () => {
 
       expect(config.load(response => {
         expect(response).to.equal(true);
-        document.getElementById.restore();
-        config.get.restore();
+        getElementById.restore();
+        get.restore();
         done();
       }));
     });
