@@ -1,39 +1,139 @@
 'use strict';
 
+/**
+ * Class Bookmark.
+ *
+ * Responsible for interacting with chrome.bookmarks API and finding suggestions.
+ */
 var Bookmark = {};
 
+/**
+ * Config class dependency. (using require() for node.js compatibility)
+ */
+var Config = Config || require('./config.js');
+
+/**
+ * Finds which nodes are folders from given nodes.
+ *
+ * @param {BookmarkTreeNode[]} nodes - Node tree that will be iterated
+ * @return {Object[]} - Array of results containing 'id' and 'title' keys
+ */
+Bookmark.recursiveFindFolders = nodes => {
+  var result = [];
+
+  for (let i = 0; i < nodes.length; i++) {
+    if (nodes[i].children && nodes[i].children.length) {
+      result.push({
+        id: nodes[i].id,
+        title: nodes[i].title,
+      });
+      result = result.concat(Bookmark.recursiveFindFolders(nodes[i].children));
+    }
+  }
+
+  return result;
+};
+
+/**
+ * Finds which nodes are leaves (not folders) from given nodes.
+ *
+ * @param {BookmarkTreeNode[]} nodes - Node tree that will be iterated
+ * @return {Object[]} - Array of results containing 'id' and 'title' keys
+ */
+Bookmark.recursiveFindLeaves = nodes => {
+  var result = [];
+
+  for (let i = 0; i < nodes.length; i++) {
+    if (nodes[i].children && nodes[i].children.length) {
+      result = result.concat(Bookmark.recursiveFindLeaves(nodes[i].children));
+    } else {
+      result.push({
+        id: nodes[i].id,
+        title: nodes[i].title,
+      });
+    }
+  }
+
+  return result;
+};
+
+/**
+ * Finds all nodes that are folders from chrome bookmarks tree.
+ *
+ * @param {function} cb - Callback
+ */
 Bookmark.findFolders = cb => {
   chrome.bookmarks.getTree(nodes => {
-    var folders = [];
-    var i;
-
-    for (i = 0; i < nodes.length; i++) {
-      if (nodes[i].children && nodes[i].children.length) {
-        folders.push(nodes[i]);
-      }
-    }
-
-    cb(folders);
+    cb(Bookmark.recursiveFindFolders(nodes));
   });
 };
 
+/**
+ * Finds all nodes that are leaves from given folder.
+ *
+ * @param {string} folderId - Folder to get bookmarks from
+ * @param {function} cb - Callback
+ */
 Bookmark.getFolderBookmarks = (folderId, cb) => {
   chrome.bookmarks.getChildren(folderId, nodes => {
-    cb(nodes);
+    cb(Bookmark.recursiveFindLeaves(nodes));
   });
 };
 
+/**
+ * Move node from a location to another on chrome bookmarks tree.
+ *
+ * @param {string} id - Node to move
+ * @param {string} destinationId - Folder that node will be moved to
+ * @param {function} cb - Callback
+ */
 Bookmark.moveBookmark = (id, destinationId, cb) => {
   chrome.bookmarks.move(id, destinationId, cb);
 };
 
+/**
+ * Delete a node from chrome bookmarks tree.
+ *
+ * @param {string} id - Node to delete
+ * @param {function} cb - Callback
+ */
 Bookmark.deleteBookmark = (id, cb) => {
   chrome.bookmarks.remove(id, cb);
 };
 
-// Bookmark.getSuggestion = cb => {};
+/**
+ * Gets a single suggestion from sourceFolder based on suggestedOrder logic.
+ *
+ * @param {function} cb - Callback
+ */
+Bookmark.getSuggestion = cb => {
+  Config.get({sourceFolder: 0, suggestedOrder: 'random'}, options => {
+    Bookmark.getFolderBookmarks(options.sourceFolder, bookmarks => {
+      var suggestion;
 
-// Bookmark.markBookmarkAsRead = (id, cb) => {};
+      switch (options.suggestedOrder) {
+        case 'random':
+        default:
+          suggestion = bookmarks[Math.floor(Math.random() * bookmarks.length)];
+          break;
+      }
+
+      cb(suggestion);
+    });
+  });
+};
+
+/**
+ * Mark bookmark as read, moving it to destinationFolder.
+ *
+ * @param {string} id - Node to delete
+ * @param {function} cb - Callback
+ */
+Bookmark.markBookmarkAsRead = (id, cb) => {
+  Config.get({destinationFolder: 0}, options => {
+    Bookmark.moveBookmark(id, options.destinationFolder, cb);
+  });
+};
 
 /* istanbul ignore next */
 if (typeof exports === 'object') {

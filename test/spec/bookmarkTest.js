@@ -1,10 +1,12 @@
 'use strict';
 
 const chai = require('chai');
+const sinon = require('sinon');
 const expect = chai.expect;
 const assert = chai.assert;
 
 const bookmark = require('../../app/scripts.babel/bookmark');
+const config = require('../../app/scripts.babel/config');
 
 describe('Bookmark Class', () => {
   before(() => {
@@ -14,15 +16,34 @@ describe('Bookmark Class', () => {
   describe('interacting with chrome.bookmarks API', () => {
     it('should find folders from bookmarks', done => {
       chrome.bookmarks.getTree.yields([
-        {title: 'Folder 1', children: [{}]},
-        {title: 'Bookmark 1'},
-        {title: 'Folder 2', children: [{}, {}]},
+        {id: '1', title: 'Folder 1', children: [{}]},
+        {id: '2', title: 'Bookmark 1'},
+        {
+          id: '3',
+          title: 'Folder 2',
+          children: [
+            {
+              id: '4',
+              title: 'Folder 3',
+              children: [
+                {},
+                {
+                  id: '5',
+                  title: 'Folder 4',
+                  children: [{}],
+                },
+              ],
+            },
+          ],
+        },
       ]);
 
       bookmark.findFolders(folders => {
         expect(folders).to.deep.equal([
-          {title: 'Folder 1', children: [{}]},
-          {title: 'Folder 2', children: [{}, {}]},
+          {id: '1', title: 'Folder 1'},
+          {id: '3', title: 'Folder 2'},
+          {id: '4', title: 'Folder 3'},
+          {id: '5', title: 'Folder 4'},
         ]);
         done();
       });
@@ -30,30 +51,14 @@ describe('Bookmark Class', () => {
 
     it('should get children bookmarks for a given folder', done => {
       chrome.bookmarks.getChildren.withArgs(12).yields([
-        {title: 'Node 1'},
-        {title: 'Node 2'},
+        {id: '1', title: 'Node 1'},
+        {id: '2', title: 'Node 2', children: [{id: '3', title: 'Node 3'}]},
       ]);
 
       bookmark.getFolderBookmarks(12, bookmarks => {
         expect(bookmarks).to.deep.equal([
-          {title: 'Node 1'},
-          {title: 'Node 2'},
-        ]);
-
-        done();
-      });
-    });
-
-    xit('should get children bookmarks for a given folder recursively', done => {
-      chrome.bookmarks.getChildren.withArgs(12).yields([
-        {title: 'Node 1'},
-        {title: 'Node 2', children: [{title: 'Node 3'}]},
-      ]);
-
-      bookmark.getFolderBookmarks(12, bookmarks => {
-        expect(bookmarks).to.deep.equal([
-          {title: 'Node 1'},
-          {title: 'Node 3'},
+          {id: '1', title: 'Node 1'},
+          {id: '3', title: 'Node 3'},
         ]);
 
         done();
@@ -70,6 +75,37 @@ describe('Bookmark Class', () => {
       bookmark.deleteBookmark(44);
       assert(chrome.bookmarks.remove.withArgs(44).calledOnce);
       done();
+    });
+
+    it('should receive a bookmark as suggestion', done => {
+      var get = sinon.stub(config, 'get');
+      get.withArgs({sourceFolder: 0, suggestedOrder: 'random'})
+        .yields({sourceFolder: 5, suggestedOrder: 'random'});
+
+      var getFolderBookmarks = sinon.stub(bookmark, 'getFolderBookmarks');
+      getFolderBookmarks.withArgs(5).yields([{id: 1, title: 'Title'}]);
+
+      bookmark.getSuggestion(response => {
+        expect(response).to.deep.equal({id: 1, title: 'Title'});
+        get.restore();
+        getFolderBookmarks.restore();
+        done();
+      });
+    });
+
+    it('should mark bookmark as ready', done => {
+      var get = sinon.stub(config, 'get');
+      get.withArgs({destinationFolder: 0}).yields({destinationFolder: 100});
+
+      var moveBookmark = sinon.stub(bookmark, 'moveBookmark');
+      moveBookmark.withArgs(44, 100).yields(true);
+
+      bookmark.markBookmarkAsRead(44, response => {
+        expect(response).to.equal(true);
+        get.restore();
+        moveBookmark.restore();
+        done();
+      });
     });
   });
 });
