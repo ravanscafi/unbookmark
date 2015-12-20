@@ -11,13 +11,13 @@
   "background": {
     "scripts": [
       "scripts/chromereload.js",
-      "scripts/background.js"
+      "scripts/background.js",
+      "scripts/config.js",
+      "scripts/bookmark.js"
     ]
   },
   "permissions": [
     "bookmarks",
-    "tabs",
-    "webNavigation",
     "storage"
   ],
   "options_ui": {
