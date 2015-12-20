@@ -67,7 +67,7 @@ describe('Config Class', () => {
         destinationFolder: '',
         triggerAction: 'new_tab',
         suggestedOrder: 'random',
-        triggerFrequency: 5,
+        triggerFrequency: 10,
       }).yields(expected);
 
       expect(config.load(response => {
