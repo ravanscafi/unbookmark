@@ -3,35 +3,81 @@
   <head>
     <link href="styles/main.css" rel="stylesheet">
   </head>
-  <body>
-    <h1>Unfavoritize Settings</h1>
-    <h2>@TODO translate</h2>
+  <body class="page">
+    <section>
+      <h3>
+        <label for="sourceFolder" data-i18n="sourceFolder"></label>
+      </h3>
+      <div>
+        <select id="sourceFolder"></select>
+      </div>
+    </section>
 
-    <p>
-      <label for="sourceFolder"></label>
-      <input type="text" id="sourceFolder" />
-    </p>
+    <section>
+      <h3>
+        <label for="destinationFolder" data-i18n="destinationFolder"></label>
+      </h3>
+      <div>
+        <select id="destinationFolder"></select>
+      </div>
+    </section>
 
-    <p>
-      <label for="destinationFolder"></label>
-      <input type="text" id="destinationFolder" />
-    </p>
+    <section>
+      <h3 data-i18n="triggerAction"></h3>
+      <div>
+        <div class="radio controlled-setting-with-label">
+          <label>
+            <input type="radio" name="triggerAction" value="new_tab" />
+            <span data-i18n="triggerAction_newTab"></span>
+          </label>
+        </div>
+        <div class="radio controlled-setting-with-label">
+          <label>
+            <input type="radio" name="triggerAction" disabled="disabled" />
+            <span data-i18n="comingSoon"></span>
+          </label>
+        </div>
+      </div>
+    </section>
 
-    <p>
-      <label for="triggerAction"></label>
-      <input type="text" id="triggerAction" />
-    </p>
+    <section>
+      <h3 data-i18n="suggestedOrder"></h3>
+      <div>
+        <div class="radio controlled-setting-with-label">
+          <label>
+            <input type="radio" name="suggestedOrder" value="random" />
+            <span data-i18n="suggestedOrder_random"></span>
+          </label>
+        </div>
+        <div class="radio controlled-setting-with-label">
+          <label>
+            <input type="radio" name="suggestedOrder" disabled="disabled" />
+            <span data-i18n="comingSoon"></span>
+          </label>
+        </div>
+      </div>
+    </section>
 
-    <p>
-      <label for="triggerFrequency"></label>
-      <input type="text" id="triggerFrequency" />
-    </p>
+    <section>
+      <h3>
+        <label for="triggerFrequency" data-i18n="triggerFrequency"></label>
+      </h3>
+      <div>
+        <input type="range" id="triggerFrequency" min="1" max="100" />
+        <div class="frequency-hints">
+          <div class="frequency-left" data-i18n="triggerFrequencyHintLessOften"></div>
+          <div class="frequency-right" data-i18n="triggerFrequencyHintMoreOften"></div>
+        </div>
+      </div>
+    </section>
 
-    <p>
-      <label for="suggestedOrder"></label>
-      <input type="text" id="suggestedOrder" />
-    </p>
+    <section class="text-right">
+      <input type="submit" id="submit" data-i18n="save" />
+    </section>
 
+    <script src="scripts/bookmark.js"></script>
+    <script src="scripts/domHelper.js"></script>
+    <script src="scripts/config.js"></script>
     <script src="scripts/options.js"></script>
   </body>
 </html>

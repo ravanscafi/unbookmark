@@ -10,7 +10,7 @@ const config = require('../../app/scripts.babel/config');
 describe('Config Class', () => {
   before(() => {
     global.chrome = require('sinon-chrome');
-    global.document = {getElementById: () => {}};
+    global.document = {getElementById: () => {}, querySelector: () => {}};
   });
 
   describe('interacting with configs page', () => {
@@ -19,16 +19,18 @@ describe('Config Class', () => {
         sourceFolder: 'value-1',
         destinationFolder: 'value-2',
         triggerAction: 'value-3',
-        triggerFrequency: 'value-4',
-        suggestedOrder: 'value-5',
+        suggestedOrder: 'value-4',
+        triggerFrequency: 'value-5',
       };
       var getElementById = sinon.stub(document, 'getElementById');
+      var querySelector = sinon.stub(document, 'querySelector');
 
       getElementById.withArgs('sourceFolder').returns({value: 'value-1'});
       getElementById.withArgs('destinationFolder').returns({value: 'value-2'});
-      getElementById.withArgs('triggerAction').returns({value: 'value-3'});
-      getElementById.withArgs('triggerFrequency').returns({value: 'value-4'});
-      getElementById.withArgs('suggestedOrder').returns({value: 'value-5'});
+
+      querySelector.withArgs('[name=triggerAction]:checked').returns({value: 'value-3'});
+      querySelector.withArgs('[name=suggestedOrder]:checked').returns({value: 'value-4'});
+      getElementById.withArgs('triggerFrequency').returns({value: 'value-5'});
 
       var set = sinon.stub(config, 'set');
       set.withArgs(expected).yields('ok!');
@@ -36,6 +38,7 @@ describe('Config Class', () => {
       expect(config.save(response => {
         expect(response).to.equal('ok!');
         getElementById.restore();
+        querySelector.restore();
         set.restore();
         done();
       }));
@@ -46,29 +49,31 @@ describe('Config Class', () => {
         sourceFolder: 'value-1',
         destinationFolder: 'value-2',
         triggerAction: 'value-3',
-        triggerFrequency: 'value-4',
-        suggestedOrder: 'value-5',
+        suggestedOrder: 'value-4',
+        triggerFrequency: 'value-5',
       };
       var getElementById = sinon.stub(document, 'getElementById');
+      var querySelector = sinon.stub(document, 'querySelector');
 
       getElementById.withArgs('sourceFolder').returns({value: ''});
       getElementById.withArgs('destinationFolder').returns({value: ''});
-      getElementById.withArgs('triggerAction').returns({value: ''});
+      querySelector.withArgs('[name=triggerAction][value=value-3]').returns({value: 'value-3'});
+      querySelector.withArgs('[name=suggestedOrder][value=value-4]').returns({value: 'value-4'});
       getElementById.withArgs('triggerFrequency').returns({value: ''});
-      getElementById.withArgs('suggestedOrder').returns({value: ''});
 
       var get = sinon.stub(config, 'get');
-      get.withArgs([
-        'sourceFolder',
-        'destinationFolder',
-        'triggerAction',
-        'triggerFrequency',
-        'suggestedOrder',
-      ]).yields(expected);
+      get.withArgs({
+        sourceFolder: '',
+        destinationFolder: '',
+        triggerAction: 'new_tab',
+        suggestedOrder: 'random',
+        triggerFrequency: 5,
+      }).yields(expected);
 
       expect(config.load(response => {
         expect(response).to.equal(true);
         getElementById.restore();
+        querySelector.restore();
         get.restore();
         done();
       }));

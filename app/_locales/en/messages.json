@@ -1,10 +1,44 @@
 {
   "appName": {
-    "message": "Unfavoritize",
-    "description": "The name of the application"
+    "message": "Unfavoritize"
   },
   "appDescription": {
-    "message": "@TODO",
-    "description": "The description of the application"
+    "message": "@TODO"
+  },
+  "comingSoon": {
+    "message": "More options coming soon!"
+  },
+  "sourceFolder": {
+    "message": "Source Bookmarks Folder"
+  },
+  "destinationFolder": {
+    "message": "Destination Bookmarks Folder"
+  },
+  "triggerAction": {
+    "message": "Action to make suggestions"
+  },
+  "triggerAction_newTab": {
+    "message": "When opening a new tab"
+  },
+  "triggerFrequency": {
+    "message": "Suggestions Frequency"
+  },
+  "triggerFrequencyHintLessOften": {
+    "message": "Less Often (1%)"
+  },
+  "triggerFrequencyHintMoreOften": {
+    "message": "More Often (100%)"
+  },
+  "suggestedOrder": {
+    "message": "Suggestion Order"
+  },
+  "suggestedOrder_random": {
+    "message": "Random bookmark"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "saved": {
+    "message": "Saved!"
   }
 }

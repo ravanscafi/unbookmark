@@ -1,3 +1,41 @@
 body {
-  padding: 20px;
+  padding: 2px 20px;
+}
+
+label {
+  display: block;
+  margin: 2px 0;
+}
+
+select {
+  width: 100%;
+}
+
+.text-right {
+  text-align: right;
+}
+
+section > h3 {
+  -webkit-margin-start: -18px;
+}
+
+#triggerFrequency {
+  width: 100%;
+}
+
+.frequency-hints {
+  font-size: .9em;
+  margin-bottom: 2em;
+}
+
+.frequency-hints::after {
+  content: "";
+  clear: both;
+}
+
+.frequency-left {
+  float: left;
+}
+.frequency-right {
+  float: right;
 }
