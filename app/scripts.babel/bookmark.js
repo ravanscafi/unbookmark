@@ -8,11 +8,6 @@
 var Bookmark = {};
 
 /**
- * Config class dependency. (using require() for node.js compatibility)
- */
-var Config = Config || require('./config.js');
-
-/**
  * Finds which nodes are folders from given nodes.
  *
  * @param {BookmarkTreeNode[]} nodes - Node tree that will be iterated
@@ -22,7 +17,7 @@ Bookmark.recursiveFindFolders = nodes => {
   var result = [];
 
   nodes.forEach(node => {
-    if (node.children && node.children.length) {
+    if (node.children) {
       result.push({
         id: node.id,
         title: node.title,
@@ -44,7 +39,7 @@ Bookmark.recursiveFindLeaves = nodes => {
   var result = [];
 
   nodes.forEach(node => {
-    if (node.children && node.children.length) {
+    if (node.children) {
       result = result.concat(Bookmark.recursiveFindLeaves(node.children));
     } else {
       result.push({
@@ -104,35 +99,34 @@ Bookmark.deleteBookmark = (id, cb) => {
 /**
  * Gets a single suggestion from sourceFolder based on suggestedOrder logic.
  *
+ * @param {string} sourceFolder - Folder to get suggestions from
+ * @param {string} suggestedOrder - Order for chosing a suggestion
  * @param {function} cb - Callback
  */
-Bookmark.getSuggestion = cb => {
-  Config.get({sourceFolder: 0, suggestedOrder: 'random'}, options => {
-    Bookmark.getFolderBookmarks(options.sourceFolder, bookmarks => {
-      var suggestion;
+Bookmark.getSuggestion = (sourceFolder, suggestedOrder, cb) => {
+  Bookmark.getFolderBookmarks(sourceFolder, bookmarks => {
+    var suggestion;
 
-      switch (options.suggestedOrder) {
-        case 'random':
-        default:
-          suggestion = bookmarks[Math.floor(Math.random() * bookmarks.length)];
-          break;
-      }
+    switch (suggestedOrder) {
+      case 'random':
+      default:
+        suggestion = bookmarks[Math.floor(Math.random() * bookmarks.length)];
+        break;
+    }
 
-      cb(suggestion);
-    });
+    cb(suggestion);
   });
 };
 
 /**
  * Mark bookmark as read, moving it to destinationFolder.
  *
- * @param {string} id - Node to delete
+ * @param {string} id - Node to mark as read
+ * @param {string} destinationFolder - Folder to move to
  * @param {function} cb - Callback
  */
-Bookmark.markBookmarkAsRead = (id, cb) => {
-  Config.get({destinationFolder: 0}, options => {
-    Bookmark.moveBookmark(id, options.destinationFolder, cb);
-  });
+Bookmark.markBookmarkAsRead = (id, destinationFolder, cb) => {
+  Bookmark.moveBookmark(id, destinationFolder, cb);
 };
 
 /* istanbul ignore next */
