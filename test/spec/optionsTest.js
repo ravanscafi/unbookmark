@@ -13,6 +13,14 @@ describe('Options Class', () => {
     global.document = {addEventListener: () => {}, getElementById: () => {}};
   });
 
+  beforeEach(() => {
+    this.clock = sinon.useFakeTimers();
+  });
+
+  afterEach(() => {
+    this.clock.restore();
+  });
+
   it('should load options when DOM is loaded', done => {
     var addEventListener = sinon.stub(document, 'addEventListener');
     var getElementById = sinon.stub(document, 'getElementById');
@@ -36,15 +44,14 @@ describe('Options Class', () => {
     assert(load.calledOnce);
     expect(target).to.deep.equal({value: 'new', disabled: 'disabled'});
 
-    setTimeout(() => {
-      expect(target).to.deep.equal({value: 'old', disabled: ''});
+    this.clock.tick(1010);
+    expect(target).to.deep.equal({value: 'old', disabled: ''});
 
-      addEventListener.restore();
-      getElementById.restore();
-      localizeI18n.restore();
-      load.restore();
-      save.restore();
-      done();
-    }, 1000);
+    addEventListener.restore();
+    getElementById.restore();
+    localizeI18n.restore();
+    load.restore();
+    save.restore();
+    done();
   });
 });
