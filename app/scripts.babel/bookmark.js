@@ -13,7 +13,7 @@ var Bookmark = {};
  * @param {BookmarkTreeNode[]} nodes - Node tree that will be iterated
  * @return {Object[]} - Array of results containing 'id' and 'title' keys
  */
-Bookmark.recursiveFindFolders = nodes => {
+const _recursiveFindFolders = nodes => {
   var result = [];
 
   nodes.forEach(node => {
@@ -21,7 +21,7 @@ Bookmark.recursiveFindFolders = nodes => {
       var children = node.children;
       delete node.children;
       result.push(node);
-      result = result.concat(Bookmark.recursiveFindFolders(children));
+      result = result.concat(_recursiveFindFolders(children));
     }
   });
 
@@ -34,12 +34,12 @@ Bookmark.recursiveFindFolders = nodes => {
  * @param {BookmarkTreeNode[]} nodes - Node tree that will be iterated
  * @return {Object[]} - Array of results containing 'id' and 'title' keys
  */
-Bookmark.recursiveFindLeaves = nodes => {
+const _recursiveFindLeaves = nodes => {
   var result = [];
 
   nodes.forEach(node => {
     if (node.children) {
-      result = result.concat(Bookmark.recursiveFindLeaves(node.children));
+      result = result.concat(_recursiveFindLeaves(node.children));
     } else {
       result.push(node);
     }
@@ -55,7 +55,7 @@ Bookmark.recursiveFindLeaves = nodes => {
  */
 Bookmark.findFolders = cb => {
   chrome.bookmarks.getTree(nodes => {
-    cb(Bookmark.recursiveFindFolders(nodes));
+    cb(_recursiveFindFolders(nodes));
   });
 };
 
@@ -67,7 +67,7 @@ Bookmark.findFolders = cb => {
  */
 Bookmark.getFolderBookmarks = (folderId, cb) => {
   chrome.bookmarks.getChildren(folderId, nodes => {
-    cb(Bookmark.recursiveFindLeaves(nodes));
+    cb(_recursiveFindLeaves(nodes));
   });
 };
 
@@ -79,7 +79,7 @@ Bookmark.getFolderBookmarks = (folderId, cb) => {
  * @param {function} cb - Callback
  */
 Bookmark.moveBookmark = (id, destinationId, cb) => {
-  chrome.bookmarks.move(id, destinationId, cb);
+  chrome.bookmarks.move(id, {parentId: destinationId}, cb);
 };
 
 /**

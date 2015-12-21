@@ -70,7 +70,7 @@ describe('Bookmark Class', () => {
 
     it('should move a bookmark to destination', done => {
       bookmark.moveBookmark('5', '10');
-      assert(chrome.bookmarks.move.withArgs('5', '10').calledOnce);
+      assert(chrome.bookmarks.move.withArgs('5', {parentId: '10'}).calledOnce);
       done();
     });
 
