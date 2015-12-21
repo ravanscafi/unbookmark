@@ -44,6 +44,23 @@ Config.get = (configs, cb) => {
 };
 
 /**
+ * Gets all relevant persisted settings from chrome storage.
+ *
+ * @param {function} cb - Callback
+ */
+Config.getAll = cb => {
+  var configs = {
+    sourceFolder: '0',
+    destinationFolder: '0',
+    triggerAction: 'new_tab',
+    suggestedOrder: 'random',
+    triggerFrequency: 10,
+  };
+
+  chrome.storage.sync.get(configs, cb);
+};
+
+/**
  * Save options from the options page to storage.
  *
  * @param {function} cb - Callback
@@ -67,14 +84,7 @@ Config.save = cb => {
  * @param {function} cb - Callback
  */
 Config.load = cb => {
-  Config.get(
-    {
-      sourceFolder: '',
-      destinationFolder: '',
-      triggerAction: 'new_tab',
-      suggestedOrder: 'random',
-      triggerFrequency: 10,
-    },
+  Config.getAll(
     configs => {
       Bookmark.findFolders(folders => {
         document.getElementById('sourceFolder')

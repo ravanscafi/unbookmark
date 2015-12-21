@@ -61,20 +61,14 @@ describe('Config Class', () => {
       querySelector.withArgs('[name=suggestedOrder][value=value-4]').returns({value: 'value-4'});
       getElementById.withArgs('triggerFrequency').returns({value: ''});
 
-      var get = sinon.stub(config, 'get');
-      get.withArgs({
-        sourceFolder: '',
-        destinationFolder: '',
-        triggerAction: 'new_tab',
-        suggestedOrder: 'random',
-        triggerFrequency: 10,
-      }).yields(expected);
+      var getAll = sinon.stub(config, 'getAll');
+      getAll.yields(expected);
 
       expect(config.load(response => {
         expect(response).to.equal(true);
         getElementById.restore();
         querySelector.restore();
-        get.restore();
+        getAll.restore();
         done();
       }));
     });
@@ -109,6 +103,31 @@ describe('Config Class', () => {
       chrome.storage.sync.get.withArgs(configs).yields(expected);
 
       config.get(configs, response => {
+        expect(response).to.equal(expected);
+        done();
+      });
+    });
+
+    it('should get all relevant configs with its defaults', done => {
+      var configs = {
+        sourceFolder: '0',
+        destinationFolder: '0',
+        triggerAction: 'new_tab',
+        suggestedOrder: 'random',
+        triggerFrequency: 10,
+      };
+
+      var expected = {
+        sourceFolder: '10',
+        destinationFolder: '20',
+        triggerAction: 'new_tab',
+        suggestedOrder: 'random',
+        triggerFrequency: 50,
+      };
+
+      chrome.storage.sync.get.withArgs(configs).yields(expected);
+
+      config.getAll(response => {
         expect(response).to.equal(expected);
         done();
       });
