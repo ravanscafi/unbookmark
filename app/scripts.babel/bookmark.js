@@ -18,11 +18,10 @@ Bookmark.recursiveFindFolders = nodes => {
 
   nodes.forEach(node => {
     if (node.children) {
-      result.push({
-        id: node.id,
-        title: node.title,
-      });
-      result = result.concat(Bookmark.recursiveFindFolders(node.children));
+      var children = node.children;
+      delete node.children;
+      result.push(node);
+      result = result.concat(Bookmark.recursiveFindFolders(children));
     }
   });
 
@@ -42,10 +41,7 @@ Bookmark.recursiveFindLeaves = nodes => {
     if (node.children) {
       result = result.concat(Bookmark.recursiveFindLeaves(node.children));
     } else {
-      result.push({
-        id: node.id,
-        title: node.title,
-      });
+      result.push(node);
     }
   });
 

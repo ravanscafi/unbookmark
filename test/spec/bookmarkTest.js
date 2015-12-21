@@ -15,20 +15,23 @@ describe('Bookmark Class', () => {
   describe('interacting with chrome.bookmarks API', () => {
     it('should find folders from bookmarks', done => {
       chrome.bookmarks.getTree.yields([
-        {id: '1', title: 'Folder 1', children: []},
+        {id: '1', title: 'Folder 1', url: 'url1', children: []},
         {id: '2', title: 'Bookmark 1'},
         {
           id: '3',
           title: 'Folder 2',
+          url: 'url2',
           children: [
             {
               id: '4',
               title: 'Folder 3',
+              url: 'url3',
               children: [
                 {},
                 {
                   id: '5',
                   title: 'Folder 4',
+                  url: 'url4',
                   children: [],
                 },
               ],
@@ -39,10 +42,10 @@ describe('Bookmark Class', () => {
 
       bookmark.findFolders(folders => {
         expect(folders).to.deep.equal([
-          {id: '1', title: 'Folder 1'},
-          {id: '3', title: 'Folder 2'},
-          {id: '4', title: 'Folder 3'},
-          {id: '5', title: 'Folder 4'},
+          {id: '1', title: 'Folder 1', url: 'url1'},
+          {id: '3', title: 'Folder 2', url: 'url2'},
+          {id: '4', title: 'Folder 3', url: 'url3'},
+          {id: '5', title: 'Folder 4', url: 'url4'},
         ]);
         done();
       });
@@ -50,15 +53,15 @@ describe('Bookmark Class', () => {
 
     it('should get children bookmarks for a given folder', done => {
       chrome.bookmarks.getChildren.withArgs('12').yields([
-        {id: '1', title: 'Node 1'},
-        {id: '2', title: 'Node 2', children: [{id: '3', title: 'Node 3'}]},
+        {id: '1', title: 'Node 1', url: 'url1'},
+        {id: '2', title: 'Node 2', children: [{id: '3', title: 'Node 3', url: 'url3'}]},
         {id: '2', title: 'Node 4', children: []},
       ]);
 
       bookmark.getFolderBookmarks('12', bookmarks => {
         expect(bookmarks).to.deep.equal([
-          {id: '1', title: 'Node 1'},
-          {id: '3', title: 'Node 3'},
+          {id: '1', title: 'Node 1', url: 'url1'},
+          {id: '3', title: 'Node 3', url: 'url3'},
         ]);
 
         done();
