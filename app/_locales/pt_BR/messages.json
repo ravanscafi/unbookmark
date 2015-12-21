@@ -1,0 +1,44 @@
+{
+  "appName": {
+    "message": "Unfavoritize"
+  },
+  "appDescription": {
+    "message": "@TODO"
+  },
+  "comingSoon": {
+    "message": "Mais opções em breve!"
+  },
+  "sourceFolder": {
+    "message": "Pasta de Origem dos Favoritos"
+  },
+  "destinationFolder": {
+    "message": "Pasta de Destino dos Favoritos"
+  },
+  "triggerAction": {
+    "message": "Ação para receber sugestões"
+  },
+  "triggerAction_newTab": {
+    "message": "Ao abrir uma nova aba"
+  },
+  "triggerFrequency": {
+    "message": "Frequencia das Sugestões"
+  },
+  "triggerFrequencyHintLessOften": {
+    "message": "Menos Frequente (1%)"
+  },
+  "triggerFrequencyHintMoreOften": {
+    "message": "Mais Frequente (100%)"
+  },
+  "suggestedOrder": {
+    "message": "Ordem das Sugestões"
+  },
+  "suggestedOrder_random": {
+    "message": "Favorito aleatório"
+  },
+  "save": {
+    "message": "Salvar"
+  },
+  "saved": {
+    "message": "Salvo!"
+  }
+}
