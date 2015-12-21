@@ -11,14 +11,17 @@
   "background": {
     "scripts": [
       "scripts/chromereload.js",
-      "scripts/background.js",
+      "scripts/domHelper.js",
+      "scripts/bookmark.js",
       "scripts/config.js",
-      "scripts/bookmark.js"
+      "scripts/suggester.js",
+      "scripts/background.js"
     ]
   },
   "permissions": [
     "bookmarks",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "options_ui": {
     "page": "options.html",

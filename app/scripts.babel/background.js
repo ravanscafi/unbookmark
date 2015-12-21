@@ -1,7 +1,8 @@
 'use strict';
 
-chrome.runtime.onInstalled.addListener(details => {
-  console.log('previousVersion', details.previousVersion);
-});
+/**
+ * Suggester class dependency. (using require() for node.js compatibility)
+ */
+var Suggester = Suggester || require('./suggester.js');
 
-console.log('\'Allo \'Allo! Event Page');
+Suggester.registerListeners();
