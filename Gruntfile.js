@@ -1,7 +1,7 @@
 // Generated on 2015-12-16 using generator-chrome-extension 0.4.4
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = grunt => {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);

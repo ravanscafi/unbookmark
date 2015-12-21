@@ -3,8 +3,6 @@ temp
 .tmp
 coverage
 dist
-.sass-cache
 package
 app/scripts/*.js
 app/scripts/*.map
-
