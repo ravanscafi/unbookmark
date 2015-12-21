@@ -15,7 +15,7 @@
     "message": "Destination Bookmarks Folder"
   },
   "triggerAction": {
-    "message": "Action to make suggestions"
+    "message": "Action to receive suggestions"
   },
   "triggerAction_newTab": {
     "message": "When opening a new tab"
