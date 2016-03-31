@@ -21,13 +21,13 @@ describe('DomHelper Class', () => {
     var div = {tagName: 'DIV', dataset: {i18n: 'appAuthor'}};
 
     querySelectorAll.withArgs('[data-i18n]').returns([input, textarea, div]);
-    chrome.i18n.getMessage.withArgs('appName').returns('Unfavoritize');
+    chrome.i18n.getMessage.withArgs('appName').returns('Unbookmark');
     chrome.i18n.getMessage.withArgs('appDescription').returns('Awesome!');
     chrome.i18n.getMessage.withArgs('appAuthor').returns('Ravan Scafi');
 
     domHelper.localizeI18n();
 
-    expect(input.value).to.equal('Unfavoritize');
+    expect(input.value).to.equal('Unbookmark');
     expect(textarea.value).to.equal('Awesome!');
     expect(div.innerHTML).to.equal('Ravan Scafi');
 

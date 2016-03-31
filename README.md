@@ -1,4 +1,4 @@
-# Unfavoritize
+# Unbookmark
 
 ## Description
 @TODO
@@ -8,12 +8,12 @@
 Run the following:
 
 ```
-git clone git@github.com:rscafi/unfavoritize.git
-cd unfavoritize
+git clone git@github.com:rscafi/unbookmark.git
+cd unbookmark
 npm install
 ```
 
-Then, on your Chrome's Extensions Page (with Developer Mode activated), click "Load Unpacked Extension" and then navigate to folder `unfavoritize/app` and chose it.
+Then, on your Chrome's Extensions Page (with Developer Mode activated), click "Load Unpacked Extension" and then navigate to folder `unbookmark/app` and chose it.
 
 ## Testing
 

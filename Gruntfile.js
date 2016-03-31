@@ -247,7 +247,7 @@ module.exports = grunt => {
         options: {
           archive: function() {
             var manifest = grunt.file.readJSON('app/manifest.json');
-            return 'package/Unfavoritize-' + manifest.version + '.zip';
+            return 'package/Unbookmark-' + manifest.version + '.zip';
           }
         },
         files: [{

@@ -17,7 +17,7 @@ var DomHelper = {};
  * Example:
  * `<div data-i18n="appName"></div>`
  * will become:
- * `<div data-i18n="appName">Unfavoritize</div>`
+ * `<div data-i18n="appName">Unbookmark</div>`
  */
 DomHelper.localizeI18n = () => {
   var objects = document.querySelectorAll('[data-i18n]');
