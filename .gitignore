@@ -4,5 +4,4 @@ temp
 coverage
 dist
 package
-app/scripts/*.js
-app/scripts/*.map
+app/scripts
