@@ -5,11 +5,13 @@
 /**
  * DomHelper class dependency. (using require() for node.js compatibility)
  */
+// eslint-disable-next-line no-use-before-define
 var DomHelper = DomHelper || require('./domHelper.js');
 
 /**
  * Config class dependency. (using require() for node.js compatibility)
  */
+// eslint-disable-next-line no-use-before-define
 var Config = Config || require('./config.js');
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -10,11 +10,13 @@ var Config = {};
 /**
  * Bookmark class dependency. (using require() for node.js compatibility)
  */
+// eslint-disable-next-line no-use-before-define
 var Bookmark = Bookmark || require('./bookmark.js');
 
 /**
  * DomHelper class dependency. (using require() for node.js compatibility)
  */
+// eslint-disable-next-line no-use-before-define
 var DomHelper = DomHelper || require('./domHelper.js');
 
 /**

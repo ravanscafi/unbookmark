@@ -10,11 +10,13 @@ var Suggester = {};
 /**
  * Bookmark class dependency. (using require() for node.js compatibility)
  */
+// eslint-disable-next-line no-use-before-define
 var Bookmark = Bookmark || require('./bookmark.js');
 
 /**
  * Config class dependency. (using require() for node.js compatibility)
  */
+// eslint-disable-next-line no-use-before-define
 var Config = Config || require('./config.js');
 
 const _canSuggest = triggerFrequency => {
